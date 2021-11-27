@@ -1,6 +1,6 @@
 <h1 align="center"> HTunaTP </h1>
 
-HTunaTp is a http server module that automates lots of stuff such as serving ssl files, or creating routes easily.
+<p align="center">HTunaTp is a basic HTTP server module written in TS that makes creating HTTP servers easier.</p>
 
 ### Basic HTunaTP Server Code Snippet
 
