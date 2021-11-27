@@ -1,5 +1,5 @@
 import App from "./classes/App";
-declare const _default: {
-    App: typeof App;
-};
-export default _default;
+import RouteManager from "./classes/RouteManager";
+import { Route, HTTPMethods } from "./classes/Route";
+export default App;
+export { App, RouteManager, Route, HTTPMethods };

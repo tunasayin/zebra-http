@@ -1,6 +1,7 @@
 import App from "./classes/App";
-import AppOptions from "./classes/AppOptions";
+import RouteManager from "./classes/RouteManager";
+import { Route, HTTPMethods } from "./classes/Route";
 
-export default {
-  App,
-};
+export default App;
+
+export { App, RouteManager, Route, HTTPMethods };

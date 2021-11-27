@@ -2,12 +2,23 @@
 import http from "http";
 import https from "https";
 import AppOptions from "./AppOptions";
-export default class App {
-    server: {
+import RouteManager from "./RouteManager";
+export default class App extends RouteManager {
+    protected servers: {
         http: http.Server;
-        https: https.Server;
+        https: https.Server | null;
     };
-    port: number;
-    constructor({ debug, port }: AppOptions);
-    start(p: number): void;
+    readonly ports: {
+        http: number | null;
+        https: number | null;
+    };
+    readonly debug: boolean;
+    readonly keys: {
+        key: string;
+        cert: string;
+        ca: string;
+    } | null;
+    constructor({ debug, useSSL, keys }: AppOptions);
+    start(httpPort: number, started?: () => void): void;
+    private _handleRequest;
 }

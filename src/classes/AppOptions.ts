@@ -1,4 +1,11 @@
 export default interface AppOptions {
   debug: boolean;
-  port: number;
+  useSSL: boolean | undefined;
+  keys:
+    | {
+        key: string;
+        cert: string;
+        ca: string;
+      }
+    | undefined;
 }
