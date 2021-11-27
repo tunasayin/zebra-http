@@ -1,0 +1,23 @@
+{
+  "name": "htunatp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/main.test.js"
+  },
+  "keywords": [
+    "httpserver",
+    "http",
+    "httpsserver",
+    "https"
+  ],
+  "author": "Tuna Sayin",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.11.10"
+  }
+}
