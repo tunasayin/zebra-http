@@ -1,7 +1,5 @@
-/*
-    ! In debug mode you cannot use SSL.
-    ! If you want to use ssl then you should provide ssl files
-*/
+const path = require("path");
+
 const HTunaTP = require("../dist/index");
 
 const app = new HTunaTP.App({
@@ -10,4 +8,16 @@ const app = new HTunaTP.App({
 
 app.start(3000, () => {
   console.log("Server started at port 3000");
+});
+
+app.registerRoute("/", ["GET"], (req, res) => {
+  res.sendFile(path.join(__dirname, "html", "index.html"));
+
+  res.end();
+});
+
+app.registerRoute("/otuzbir", ["GET"], (req, res) => {
+  res.send("otuzbir desem sj der misin?");
+
+  res.end();
 });

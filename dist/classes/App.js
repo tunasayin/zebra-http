@@ -20,8 +20,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = __importDefault(require("http"));
 var https_1 = __importDefault(require("https"));
-var path_1 = __importDefault(require("path"));
 var Response_1 = __importDefault(require("./Response"));
+var Request_1 = __importDefault(require("./Request"));
 var RouteManager_1 = __importDefault(require("./RouteManager"));
 var App = (function (_super) {
     __extends(App, _super);
@@ -30,7 +30,7 @@ var App = (function (_super) {
         var _this = _super.call(this) || this;
         _this.servers = {
             http: http_1.default.createServer(function (req, res) {
-                _this._handleRequest(req, res);
+                _this._handleRequest(req, res, true);
             }),
             https: null,
         };
@@ -43,9 +43,11 @@ var App = (function (_super) {
             if (!keys)
                 throw new Error("Cannot create ssl server without ssl keys.");
             if (_this.debug)
-                process.emitWarning("Using ssl server with debug mode is not recommended please consider not using ssl while creating your server.");
+                process.emitWarning("Using ssl server with debug mode is not recommended please consider not using ssl while debugging your server.");
             _this.keys = keys;
-            _this.servers.https = https_1.default.createServer(_this.keys, _this._handleRequest);
+            _this.servers.https = https_1.default.createServer(_this.keys, function (req, res) {
+                _this._handleRequest(req, res, false);
+            });
         }
         else {
             _this.keys = null;
@@ -63,7 +65,7 @@ var App = (function (_super) {
             canRun += 1;
         }
         catch (err) {
-            throw new Error("[hTunaTP]: An unexpected error occued while starting HTTP server. \n" + err);
+            throw new Error("\u001B[32m[hTunaTP]\u001B[0m: An unexpected error occued while starting HTTP server. \n" + err);
         }
         if (this.keys) {
             try {
@@ -71,7 +73,7 @@ var App = (function (_super) {
                 canRun += 1;
             }
             catch (err) {
-                throw new Error("[hTunaTP]: An unexpected error occured while starting HTTPS server. \n" + err);
+                throw new Error("\u001B[32m[hTunaTP]\u001B[0m: An unexpected error occured while starting HTTPS server. \n" + err);
             }
         }
         else {
@@ -80,15 +82,34 @@ var App = (function (_super) {
         if (started) {
             while (canRun == 2) {
                 started();
+                if (this.ports.http !== 80 && this.keys) {
+                    process.emitWarning("Using a port diffrent than 80 while using ssl is not recommended please consider chaning the port to 80.");
+                }
                 canRun = 3;
             }
         }
     };
-    App.prototype._handleRequest = function (req, res) {
+    App.prototype._handleRequest = function (req, res, isHTTP) {
+        if (this.keys && isHTTP) {
+            res.writeHead(301, {
+                Location: "https://" + req.headers["host"] + req.url,
+            });
+            res.end();
+            return;
+        }
         var HTunaTPResponse = new Response_1.default(res);
-        HTunaTPResponse.setStatus(400);
-        HTunaTPResponse.sendFile(path_1.default.join(__dirname, "..", "..", "tests", "index.html"));
-        HTunaTPResponse.end();
+        var HTunaTPRequest = new Request_1.default(req);
+        var route = this.routes.find(function (x) { return x.path === HTunaTPRequest.path; });
+        if (route === null || route === void 0 ? void 0 : route.methods.includes(HTunaTPRequest.method)) {
+            try {
+                if (this.debug)
+                    console.log("\u001B[32m[hTunaTP]\u001B[0m: Recieved a request executing route " + route.path + ".");
+                route.exec(HTunaTPRequest, HTunaTPResponse);
+            }
+            catch (err) {
+                throw err;
+            }
+        }
     };
     return App;
 }(RouteManager_1.default));

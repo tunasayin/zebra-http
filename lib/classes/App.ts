@@ -32,7 +32,7 @@ export default class App extends RouteManager {
 
     this.servers = {
       http: http.createServer((req, res) => {
-        this._handleRequest(req, res);
+        this._handleRequest(req, res, true);
       }),
       https: null,
     };
@@ -47,12 +47,14 @@ export default class App extends RouteManager {
       if (!keys) throw new Error("Cannot create ssl server without ssl keys.");
       if (this.debug)
         process.emitWarning(
-          "Using ssl server with debug mode is not recommended please consider not using ssl while creating your server."
+          "Using ssl server with debug mode is not recommended please consider not using ssl while debugging your server."
         );
 
       this.keys = keys;
 
-      this.servers.https = https.createServer(this.keys, this._handleRequest);
+      this.servers.https = https.createServer(this.keys, (req, res) => {
+        this._handleRequest(req, res, false);
+      });
     } else {
       this.keys = null;
     }
@@ -70,7 +72,7 @@ export default class App extends RouteManager {
       canRun += 1;
     } catch (err) {
       throw new Error(
-        `[hTunaTP]: An unexpected error occued while starting HTTP server. \n${err}`
+        `\x1b[32m[hTunaTP]\x1b[0m: An unexpected error occued while starting HTTP server. \n${err}`
       );
     }
 
@@ -81,7 +83,7 @@ export default class App extends RouteManager {
         canRun += 1;
       } catch (err) {
         throw new Error(
-          `[hTunaTP]: An unexpected error occured while starting HTTPS server. \n${err}`
+          `\x1b[32m[hTunaTP]\x1b[0m: An unexpected error occured while starting HTTPS server. \n${err}`
         );
       }
     } else {
@@ -91,6 +93,11 @@ export default class App extends RouteManager {
     if (started) {
       while (canRun == 2) {
         started();
+        if (this.ports.http !== 80 && this.keys) {
+          process.emitWarning(
+            "Using a port diffrent than 80 while using ssl is not recommended please consider chaning the port to 80."
+          );
+        }
         canRun = 3;
       }
     }
@@ -98,16 +105,35 @@ export default class App extends RouteManager {
 
   private _handleRequest(
     req: http.IncomingMessage,
-    res: http.ServerResponse
+    res: http.ServerResponse,
+    isHTTP: boolean
   ): void {
+    if (this.keys && isHTTP) {
+      res.writeHead(301, {
+        Location: "https://" + req.headers["host"] + req.url,
+      });
+
+      res.end();
+
+      return;
+    }
+
     const HTunaTPResponse = new Response(res);
+    const HTunaTPRequest = new Request(req);
 
-    HTunaTPResponse.setStatus(400);
+    const route = this.routes.find((x) => x.path === HTunaTPRequest.path);
 
-    HTunaTPResponse.sendFile(
-      path.join(__dirname, "..", "..", "tests", "index.html")
-    );
+    if (route?.methods.includes(HTunaTPRequest.method)) {
+      try {
+        if (this.debug)
+          console.log(
+            `\x1b[32m[hTunaTP]\x1b[0m: Recieved a request executing route ${route.path}.`
+          );
 
-    HTunaTPResponse.end();
+        route.exec(HTunaTPRequest, HTunaTPResponse);
+      } catch (err) {
+        throw err;
+      }
+    }
   }
 }

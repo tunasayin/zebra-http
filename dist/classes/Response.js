@@ -10,12 +10,19 @@ var Response = (function () {
     }
     Response.prototype.setStatus = function (status) {
         this.rawResponse.writeHead(status);
+        return this;
+    };
+    Response.prototype.send = function (data) {
+        this.rawResponse.write(data);
+        return this;
     };
     Response.prototype.sendFile = function (filePath) {
         this.rawResponse.write(fs_1.default.readFileSync(filePath, "utf-8"));
+        return this;
     };
     Response.prototype.end = function (data) {
         this.rawResponse.end(data);
+        return null;
     };
     return Response;
 }());

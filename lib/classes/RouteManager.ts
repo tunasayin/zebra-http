@@ -8,7 +8,8 @@ export default class RouteManager {
     this.routes = [];
   }
 
-  public createRoute(
+  public registerRoute(
+    path: string,
     methods: HTTPMethods[] | HTTPMethods,
     routeFunction: (req: any, res: any) => void
   ): Route {
@@ -16,12 +17,10 @@ export default class RouteManager {
       methods = [methods];
     }
 
-    const route = new Route(methods, routeFunction);
+    const route = new Route(path, methods, routeFunction);
 
     this.routes.push(route);
 
     return route;
   }
-
-  private _handleRoute() {}
 }

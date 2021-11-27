@@ -8,15 +8,14 @@ var RouteManager = (function () {
     function RouteManager() {
         this.routes = [];
     }
-    RouteManager.prototype.createRoute = function (methods, routeFunction) {
+    RouteManager.prototype.registerRoute = function (path, methods, routeFunction) {
         if (!Array.isArray(methods)) {
             methods = [methods];
         }
-        var route = new Route_1.default(methods, routeFunction);
+        var route = new Route_1.default(path, methods, routeFunction);
         this.routes.push(route);
         return route;
     };
-    RouteManager.prototype._handleRoute = function () { };
     return RouteManager;
 }());
 exports.default = RouteManager;
