@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTunaTP Error</title>
+  </head>
+  <body>
+    <div class="error-container">
+      <div class="error-head">
+        <h1 id="error_name">
+          $error_name: <span id="error_message">$error_message</span>
+        </h1>
+      </div>
+      <div class="error-details">
+        <code>$error_stack</code>
+      </div>
+      <div class="tip">
+        <span style="color: #f5f56b; font-weight: bold">PRO TIP:</span> Want to
+        disable this page? Add <code>dontShowError : false</code> to the app
+        config or put app in production mode.
+      </div>
+    </div>
+    <style>
+      body {
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        background-color: #3a3a3a;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        overflow-x: hidden;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      p,
+      span {
+        margin: 0;
+        padding: 0;
+      }
+
+      code {
+        font-weight: bold;
+      }
+
+      .error-container {
+        height: fit-content;
+        width: 75vw;
+        max-width: 1300px;
+        margin: 30px;
+      }
+
+      #error_name {
+        color: #eb4040;
+        font-size: 40px;
+        margin: 15px;
+        margin-left: 0px;
+      }
+
+      #error_message {
+        color: white;
+        font-weight: normal;
+        font-size: 30px;
+      }
+
+      .error-details {
+        margin: 10px;
+        margin-left: 0px;
+        background: #242424;
+        color: #cfcece;
+        padding: 5px;
+        border-radius: 5px;
+      }
+
+      .tip {
+        margin: 10px;
+        padding: 4px;
+        margin-left: 0px;
+        padding-left: 0px;
+        color: #cac8c8;
+      }
+
+      .tip code {
+        font-size: 13.5px;
+        background: #202020;
+        color: #cfcece;
+        padding: 4px;
+        border-radius: 4px;
+      }
+    </style>
+  </body>
+</html>

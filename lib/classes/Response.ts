@@ -13,8 +13,21 @@ export default class Response {
     return this;
   }
 
-  send(data: string) {
+  sendText(data: string) {
+    this.rawResponse.setHeader("Content-Type", "text/plain");
     this.rawResponse.write(data);
+    return this;
+  }
+
+  sendHTML(htmlData: string) {
+    this.rawResponse.setHeader("Content-Type", "text/html");
+    this.rawResponse.write(htmlData);
+    return this;
+  }
+
+  sendJSON(jsonData: object) {
+    this.rawResponse.setHeader("Content-Type", "application/json");
+    this.rawResponse.write(JSON.stringify(jsonData));
     return this;
   }
 

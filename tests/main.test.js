@@ -16,8 +16,19 @@ app.registerRoute("/", ["GET"], (req, res) => {
   res.end();
 });
 
-app.registerRoute("/otuzbir", ["GET"], (req, res) => {
-  res.send("otuzbir desem sj der misin?");
+app.registerRoute("/text", ["GET"], (req, res) => {
+  res.sendText("Hello World!").end();
+});
 
-  res.end();
+app.registerRoute("/html", ["GET"], (req, res) => {
+  console.asda.adasd.adsa;
+});
+
+app.registerRoute("/json", ["GET"], (req, res) => {
+  res
+    .sendJSON({
+      status: 200,
+      message: "Successfull!",
+    })
+    .end();
 });

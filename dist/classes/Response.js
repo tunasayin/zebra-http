@@ -12,8 +12,19 @@ var Response = (function () {
         this.rawResponse.writeHead(status);
         return this;
     };
-    Response.prototype.send = function (data) {
+    Response.prototype.sendText = function (data) {
+        this.rawResponse.setHeader("Content-Type", "text/plain");
         this.rawResponse.write(data);
+        return this;
+    };
+    Response.prototype.sendHTML = function (htmlData) {
+        this.rawResponse.setHeader("Content-Type", "text/html");
+        this.rawResponse.write(htmlData);
+        return this;
+    };
+    Response.prototype.sendJSON = function (jsonData) {
+        this.rawResponse.setHeader("Content-Type", "application/json");
+        this.rawResponse.write(JSON.stringify(jsonData));
         return this;
     };
     Response.prototype.sendFile = function (filePath) {

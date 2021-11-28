@@ -13,6 +13,7 @@ export default class Route {
     path: string;
     methods: HTTPMethods[];
     exec: (req: any, res: any) => void;
-    constructor(path: string, methods: HTTPMethods[], routeFunction: (req: any, res: any) => void);
+    static_files: string[];
+    constructor(path: string, methods: HTTPMethods[], routeFunction: (req: any, res: any) => void, static_files?: string[]);
 }
 export { Route, HTTPMethods };

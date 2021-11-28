@@ -2,6 +2,7 @@
 import http from "http";
 import https from "https";
 import path from "path";
+import fs from "fs";
 
 import AppOptions from "./AppOptions";
 import Response from "./Response";
@@ -28,7 +29,7 @@ export default class App extends RouteManager {
   } | null;
 
   constructor({ debug, useSSL, keys }: AppOptions) {
-    super();
+    super(debug);
 
     this.servers = {
       http: http.createServer((req, res) => {
@@ -118,22 +119,14 @@ export default class App extends RouteManager {
       return;
     }
 
-    const HTunaTPResponse = new Response(res);
-    const HTunaTPRequest = new Request(req);
+    this._handleRoute(new Request(req), new Response(res));
+  }
 
-    const route = this.routes.find((x) => x.path === HTunaTPRequest.path);
+  public async serve(path: string, directory: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (path.startsWith("/")) reject("Invalid path was specified!");
 
-    if (route?.methods.includes(HTunaTPRequest.method)) {
-      try {
-        if (this.debug)
-          console.log(
-            `\x1b[32m[hTunaTP]\x1b[0m: Recieved a request executing route ${route.path}.`
-          );
-
-        route.exec(HTunaTPRequest, HTunaTPResponse);
-      } catch (err) {
-        throw err;
-      }
-    }
+      resolve();
+    });
   }
 }
