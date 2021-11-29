@@ -6,14 +6,14 @@ const app = new HTunaTP.App({
   debug: true,
 });
 
+app.serve("/assets", path.join(__dirname, "public"));
+
 app.start(3000, () => {
   console.log("Server started at port 3000");
 });
 
 app.registerRoute("/", ["GET"], (req, res) => {
   res.sendFile(path.join(__dirname, "html", "index.html"));
-
-  res.end();
 });
 
 app.registerRoute("/text", ["GET"], (req, res) => {

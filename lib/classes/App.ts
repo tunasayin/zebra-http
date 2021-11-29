@@ -8,6 +8,8 @@ import AppOptions from "./AppOptions";
 import Response from "./Response";
 import Request from "./Request";
 import RouteManager from "./RouteManager";
+import Static from "./StaticRoute";
+import StaticRoute from "./StaticRoute";
 
 export default class App extends RouteManager {
   protected servers: {
@@ -28,6 +30,8 @@ export default class App extends RouteManager {
     ca: string;
   } | null;
 
+  readonly staticRoutes: Static[];
+
   constructor({ debug, useSSL, keys }: AppOptions) {
     super(debug);
 
@@ -43,6 +47,8 @@ export default class App extends RouteManager {
       http: null,
       https: 443,
     };
+
+    this.staticRoutes = [];
 
     if (useSSL) {
       if (!keys) throw new Error("Cannot create ssl server without ssl keys.");
@@ -119,14 +125,31 @@ export default class App extends RouteManager {
       return;
     }
 
-    this._handleRoute(new Request(req), new Response(res));
+    this._handleRoute(new Request(req), new Response(res), this.staticRoutes);
   }
 
-  public async serve(path: string, directory: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (path.startsWith("/")) reject("Invalid path was specified!");
+  public async serve(
+    path: string,
+    directoryFile: string | string[]
+  ): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      if (!path.startsWith("/")) reject("Invalid path was specified!");
 
-      resolve();
+      if (!Array.isArray(directoryFile)) directoryFile = [directoryFile];
+
+      const staticRoute = this.staticRoutes.find((x) => x.path === path);
+
+      if (!staticRoute) {
+        const newStaticRoute = new StaticRoute(path, directoryFile);
+        this.staticRoutes.push(newStaticRoute);
+        resolve();
+      } else {
+        directoryFile.forEach((d) => {
+          staticRoute.content.push(d);
+        });
+
+        resolve();
+      }
     });
   }
 }

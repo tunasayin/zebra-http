@@ -24,14 +24,10 @@ var HTTPMethods;
 })(HTTPMethods || (HTTPMethods = {}));
 exports.HTTPMethods = HTTPMethods;
 var Route = (function () {
-    function Route(path, methods, routeFunction, static_files) {
-        this.path = path;
+    function Route(path, methods, routeFunction) {
+        this.path = path.trim();
         this.methods = __spreadArray([], methods, true);
         this.exec = routeFunction;
-        if (static_files)
-            this.static_files = __spreadArray([], static_files, true);
-        else
-            this.static_files = [];
     }
     return Route;
 }());

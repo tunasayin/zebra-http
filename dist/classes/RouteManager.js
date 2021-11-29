@@ -64,22 +64,52 @@ var RouteManager = (function () {
         this.routes.push(route);
         return route;
     };
-    RouteManager.prototype._handleRoute = function (req, res) {
+    RouteManager.prototype._handleRoute = function (req, res, staticRoutes) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var route;
-            return __generator(this, function (_a) {
-                route = this.routes.find(function (x) { return x.path === req.path; });
-                if (route === null || route === void 0 ? void 0 : route.methods.includes(req.method)) {
-                    try {
-                        if (this.debug)
-                            console.log("\u001B[32m[hTunaTP]\u001B[0m: Recieved, a request executing route " + route.path + ".");
-                        route === null || route === void 0 ? void 0 : route.exec(req, res);
-                    }
-                    catch (err) {
-                        this._handleRouteError(res, err);
-                    }
+            var route, staticRoute, i, isFile, _b, _c, err_1;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        route = this.routes.find(function (x) { return x.path === req.path; });
+                        if (route === null || route === void 0 ? void 0 : route.methods.includes(req.method)) {
+                            try {
+                                if (this.debug)
+                                    console.log("\u001B[32m[hTunaTP]\u001B[0m: Recieved, a request executing route " + route.path + ".");
+                                route === null || route === void 0 ? void 0 : route.exec(req, res);
+                            }
+                            catch (err) {
+                                this._handleRouteError(res, err);
+                            }
+                        }
+                        if (!(req.method === "GET")) return [3, 8];
+                        staticRoute = staticRoutes.find(function (x) { return x.path === req.path; });
+                        if (!staticRoute) return [3, 8];
+                        i = 0;
+                        _d.label = 1;
+                    case 1:
+                        if (!(i < staticRoute.content.length)) return [3, 8];
+                        _d.label = 2;
+                    case 2:
+                        _d.trys.push([2, 6, , 7]);
+                        return [4, fs_1.default.statSync(staticRoute.content[i])];
+                    case 3:
+                        isFile = (_a = (_d.sent())) === null || _a === void 0 ? void 0 : _a.isFile();
+                        if (!isFile) return [3, 5];
+                        _c = (_b = res.rawResponse).end;
+                        return [4, fs_1.default.readFileSync(staticRoute.content[i])];
+                    case 4:
+                        _c.apply(_b, [_d.sent()]);
+                        return [3, 5];
+                    case 5: return [3, 7];
+                    case 6:
+                        err_1 = _d.sent();
+                        throw err_1;
+                    case 7:
+                        i++;
+                        return [3, 1];
+                    case 8: return [2];
                 }
-                return [2];
             });
         });
     };

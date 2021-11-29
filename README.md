@@ -16,7 +16,7 @@ app.start(3000, () => {
 });
 
 app.registerRoute("/", ["GET"], (req, res) => {
-  res.send("Hello World!");
+  res.sendText("Hello World!");
 
   res.end();
 });

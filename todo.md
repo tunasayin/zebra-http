@@ -5,3 +5,4 @@
 - Set cookie function
 - Request parser
 - Logger class
+- Send file auto detect

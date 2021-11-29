@@ -6,6 +6,7 @@ import Response from "./Response";
 import Request from "./Request";
 
 import { HTTPMethods } from "..";
+import StaticRoute from "./StaticRoute";
 
 export default class RouteManager {
   debug: boolean;
@@ -47,7 +48,7 @@ export default class RouteManager {
     return route;
   }
 
-  async _handleRoute(req: Request, res: Response) {
+  async _handleRoute(req: Request, res: Response, staticRoutes: StaticRoute[]) {
     const route = this.routes.find((x) => x.path === req.path);
 
     if (route?.methods.includes(req.method)) {
@@ -60,6 +61,34 @@ export default class RouteManager {
         route?.exec(req, res);
       } catch (err: any) {
         this._handleRouteError(res, err);
+      }
+    }
+
+    // TODO: https://stackabuse.com/node-http-servers-for-static-file-serving/
+    // serve-static
+    if (req.method === "GET") {
+      console.log(req.path);
+      const staticRoute = staticRoutes.find((x) => x.path === req.path);
+
+      if (staticRoute) {
+        for (var i = 0; i < staticRoute.content.length; i++) {
+          try {
+            const isFile = (
+              await fs.statSync(staticRoute.content[i])
+            )?.isFile();
+            if (isFile) {
+              if (route) return res.end();
+              else {
+                res.rawResponse.write(
+                  await fs.readFileSync(staticRoute.content[i])
+                );
+              }
+            } else {
+            }
+          } catch (err: any) {
+            throw err;
+          }
+        }
       }
     }
   }

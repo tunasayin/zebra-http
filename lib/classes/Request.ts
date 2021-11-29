@@ -4,7 +4,7 @@ import fs from "fs";
 import { HTTPMethods } from "..";
 
 export default class Request {
-  private rawRequest: http.IncomingMessage;
+  rawRequest: http.IncomingMessage;
 
   // Shortcuts
   method: HTTPMethods;

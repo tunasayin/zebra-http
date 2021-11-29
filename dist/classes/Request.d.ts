@@ -2,7 +2,7 @@
 import http from "http";
 import { HTTPMethods } from "..";
 export default class Request {
-    private rawRequest;
+    rawRequest: http.IncomingMessage;
     method: HTTPMethods;
     path: string | undefined;
     constructor(res: http.IncomingMessage);

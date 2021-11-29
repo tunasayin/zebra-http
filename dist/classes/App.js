@@ -59,6 +59,7 @@ var https_1 = __importDefault(require("https"));
 var Response_1 = __importDefault(require("./Response"));
 var Request_1 = __importDefault(require("./Request"));
 var RouteManager_1 = __importDefault(require("./RouteManager"));
+var StaticRoute_1 = __importDefault(require("./StaticRoute"));
 var App = (function (_super) {
     __extends(App, _super);
     function App(_a) {
@@ -75,6 +76,7 @@ var App = (function (_super) {
             http: null,
             https: 443,
         };
+        _this.staticRoutes = [];
         if (useSSL) {
             if (!keys)
                 throw new Error("Cannot create ssl server without ssl keys.");
@@ -133,16 +135,34 @@ var App = (function (_super) {
             res.end();
             return;
         }
-        this._handleRoute(new Request_1.default(req), new Response_1.default(res));
+        this._handleRoute(new Request_1.default(req), new Response_1.default(res), this.staticRoutes);
     };
-    App.prototype.serve = function (path, directory) {
+    App.prototype.serve = function (path, directoryFile) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             return __generator(this, function (_a) {
-                return [2, new Promise(function (resolve, reject) {
-                        if (path.startsWith("/"))
-                            reject("Invalid path was specified!");
-                        resolve();
-                    })];
+                return [2, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                        var staticRoute, newStaticRoute;
+                        return __generator(this, function (_a) {
+                            if (!path.startsWith("/"))
+                                reject("Invalid path was specified!");
+                            if (!Array.isArray(directoryFile))
+                                directoryFile = [directoryFile];
+                            staticRoute = this.staticRoutes.find(function (x) { return x.path === path; });
+                            if (!staticRoute) {
+                                newStaticRoute = new StaticRoute_1.default(path, directoryFile);
+                                this.staticRoutes.push(newStaticRoute);
+                                resolve();
+                            }
+                            else {
+                                directoryFile.forEach(function (d) {
+                                    staticRoute.content.push(d);
+                                });
+                                resolve();
+                            }
+                            return [2];
+                        });
+                    }); })];
             });
         });
     };

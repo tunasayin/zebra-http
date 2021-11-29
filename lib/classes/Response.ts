@@ -2,7 +2,7 @@ import http from "http";
 import fs from "fs";
 
 export default class Response {
-  private rawResponse: http.ServerResponse;
+  rawResponse: http.ServerResponse;
 
   constructor(res: http.ServerResponse) {
     this.rawResponse = res;

@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import http from "http";
 export default class Response {
-    private rawResponse;
+    rawResponse: http.ServerResponse;
     constructor(res: http.ServerResponse);
     setStatus(status: number): this;
     sendText(data: string): this;

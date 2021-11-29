@@ -14,19 +14,15 @@ export default class Route {
   path: string;
   methods: HTTPMethods[];
   exec: (req: any, res: any) => void;
-  static_files: string[];
 
   constructor(
     path: string,
     methods: HTTPMethods[],
-    routeFunction: (req: any, res: any) => void,
-    static_files?: string[]
+    routeFunction: (req: any, res: any) => void
   ) {
-    this.path = path;
+    this.path = path.trim();
     this.methods = [...methods];
     this.exec = routeFunction;
-    if (static_files) this.static_files = [...static_files];
-    else this.static_files = [];
   }
 }
 
