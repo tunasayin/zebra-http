@@ -1,14 +1,4 @@
-enum HTTPMethods {
-  GET = "GET",
-  HEAD = "HEAD",
-  POST = "POST",
-  PUT = "PUT",
-  DELETE = "DELETE",
-  CONNECT = "CONNECT",
-  OPTIONS = "OPTIONS",
-  TRACE = "TRACE",
-  PATCH = "PATCH",
-}
+import { HTTPMethods } from "../constants";
 
 export default class Route {
   path: string;
@@ -25,5 +15,3 @@ export default class Route {
     this.exec = routeFunction;
   }
 }
-
-export { Route, HTTPMethods };

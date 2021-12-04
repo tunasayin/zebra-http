@@ -4,6 +4,7 @@ import https from "https";
 import AppOptions from "./AppOptions";
 import RouteManager from "./RouteManager";
 import Static from "./StaticRoute";
+import StaticRoute from "./StaticRoute";
 export default class App extends RouteManager {
     protected servers: {
         http: http.Server;
@@ -23,5 +24,5 @@ export default class App extends RouteManager {
     constructor({ debug, useSSL, keys }: AppOptions);
     start(httpPort: number, started?: () => void): void;
     private _handleRequest;
-    serve(urlPath: string, folderPath: string): void;
+    serve(urlPath: string, folderPath: string): StaticRoute;
 }

@@ -28,8 +28,14 @@ var Response = (function () {
         return this;
     };
     Response.prototype.sendFile = function (filePath) {
-        this.rawResponse.write(fs_1.default.readFileSync(filePath, "utf-8"));
+        this.rawResponse.write(fs_1.default.readFileSync(filePath));
         return this;
+    };
+    Response.prototype.setCookie = function (cookieName, cookieValue, options) {
+        this.rawResponse.setHeader("Set-Cookie", (cookieName + "=" + cookieValue + ";" + ((options === null || options === void 0 ? void 0 : options.expires) ? "Expires=" + options.expires + ";" : "") + "\n       " + ((options === null || options === void 0 ? void 0 : options.maxAge) ? "Max-Age=" + options.maxAge + ";" : "") + "\n       " + ((options === null || options === void 0 ? void 0 : options.domain) ? "Domain=" + options.domain + ";" : "") + "\n       " + ((options === null || options === void 0 ? void 0 : options.path) ? "Path=" + options.path + ";" : "") + "\n       " + ((options === null || options === void 0 ? void 0 : options.secure) ? "Secure;" : "") + "\n       " + ((options === null || options === void 0 ? void 0 : options.httpOnly) ? "HttpOnly;" : "")).trim());
+    };
+    Response.prototype.removeCookie = function (cookieName) {
+        this.rawResponse.setHeader("Set-Cookie", cookieName + "=; Path=/; Expires=" + new Date(1).toUTCString());
     };
     Response.prototype.end = function (data) {
         this.rawResponse.end(data);

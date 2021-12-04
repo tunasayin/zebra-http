@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var Route_1 = __importDefault(require("./Route"));
+var constants_1 = require("../constants");
 var __1 = require("..");
 var RouteManager = (function () {
     function RouteManager(debug) {
@@ -57,7 +58,7 @@ var RouteManager = (function () {
         if (!routeFunction)
             throw new Error("Cannot create a route without a route function!");
         for (var i = 0; i < methods.length; i++) {
-            if (!__1.HTTPMethods[methods[i]])
+            if (!constants_1.HTTPMethods[methods[i]])
                 throw new Error("Invalid method was specified while registering route!");
         }
         var route = new Route_1.default(path, methods, routeFunction);
@@ -66,27 +67,41 @@ var RouteManager = (function () {
     };
     RouteManager.prototype._handleRoute = function (req, res, staticRoutes) {
         return __awaiter(this, void 0, void 0, function () {
-            var route, staticRoute, parsedURL, requestedPath, isFile, fileData;
+            var route, staticRoute, parsedURL, requestedPath, isFile, fileData, contentTypes, fileExt, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         route = this.routes.find(function (x) { return x.path === req.path; });
                         staticRoute = staticRoutes.filter(function (x) { var _a; return (_a = req.path) === null || _a === void 0 ? void 0 : _a.startsWith(x.path); })[0];
-                        if (!(staticRoute && staticRoute.path)) return [3, 3];
+                        if (!(staticRoute && staticRoute.path)) return [3, 6];
                         parsedURL = req.path
                             .split(staticRoute === null || staticRoute === void 0 ? void 0 : staticRoute.path)
                             .filter(function (x) { return x != ""; });
                         requestedPath = path_1.default.normalize(path_1.default.join(staticRoute === null || staticRoute === void 0 ? void 0 : staticRoute.content, parsedURL.join("/")));
-                        return [4, fs_1.default.statSync(requestedPath)];
+                        _a.label = 1;
                     case 1:
-                        isFile = (_a.sent()).isFile();
-                        if (!isFile) return [3, 3];
-                        return [4, fs_1.default.readFileSync(requestedPath)];
+                        _a.trys.push([1, 5, , 6]);
+                        return [4, fs_1.default.statSync(requestedPath)];
                     case 2:
+                        isFile = (_a.sent()).isFile();
+                        if (!isFile) return [3, 4];
+                        return [4, fs_1.default.readFileSync(requestedPath)];
+                    case 3:
                         fileData = _a.sent();
+                        contentTypes = __1.ContentTypes;
+                        fileExt = requestedPath.split(".").pop();
+                        res.rawResponse.writeHead(200, contentTypes[fileExt]
+                            ? {
+                                "Content-Type": contentTypes[fileExt],
+                            }
+                            : {});
                         res.rawResponse.end(fileData);
                         return [2];
-                    case 3:
+                    case 4: return [3, 6];
+                    case 5:
+                        err_1 = _a.sent();
+                        return [3, 6];
+                    case 6:
                         if (route === null || route === void 0 ? void 0 : route.methods.includes(req.method)) {
                             try {
                                 if (this.debug)

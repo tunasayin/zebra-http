@@ -103,14 +103,15 @@ var App = (function (_super) {
     };
     App.prototype.serve = function (urlPath, folderPath) {
         if (!urlPath.startsWith("/"))
-            throw new Error("Invalid url was specified");
+            throw new Error("Invalid url path was specified for static route");
         var urlExists = this.staticRoutes.find(function (x) { return x.path === urlPath; })
             ? true
             : false;
         if (urlExists)
-            throw new Error("Duplicate path");
+            throw new Error("Already crated a static route at" + urlPath + "");
         var route = new StaticRoute_1.default(urlPath, folderPath);
         this.staticRoutes.push(route);
+        return route;
     };
     return App;
 }(RouteManager_1.default));

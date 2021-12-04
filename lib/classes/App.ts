@@ -125,17 +125,21 @@ export default class App extends RouteManager {
     this._handleRoute(new Request(req), new Response(res), this.staticRoutes);
   }
 
-  serve(urlPath: string, folderPath: string) {
-    if (!urlPath.startsWith("/")) throw new Error("Invalid url was specified");
+  serve(urlPath: string, folderPath: string): StaticRoute {
+    if (!urlPath.startsWith("/"))
+      throw new Error("Invalid url path was specified for static route");
 
     const urlExists = this.staticRoutes.find((x) => x.path === urlPath)
       ? true
       : false;
 
-    if (urlExists) throw new Error("Duplicate path");
+    if (urlExists)
+      throw new Error("Already crated a static route at" + urlPath + "");
 
     const route = new StaticRoute(urlPath, folderPath);
 
     this.staticRoutes.push(route);
+
+    return route;
   }
 }

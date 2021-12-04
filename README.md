@@ -6,10 +6,13 @@
 
 ```js
 const HTunaTP = require("htunatp");
+const path = require("path");
 
 const app = new HTunaTP.App({
   debug: true,
 });
+
+app.serve("/assets", path.join(__dirname, "/assets"));
 
 app.start(3000, () => {
   console.log("Server started at port 3000");

@@ -1,10 +1,11 @@
-import fs, { stat } from "fs";
+import fs from "fs";
 import path from "path";
 import Route from "./Route";
 import Response from "./Response";
 import Request from "./Request";
-import { HTTPMethods } from "..";
 import StaticRoute from "./StaticRoute";
+import { HTTPMethods } from "../constants";
+import { ContentTypes } from "..";
 
 export default class RouteManager {
   debug: boolean;
@@ -61,14 +62,27 @@ export default class RouteManager {
         path.join(staticRoute?.content, parsedURL.join("/"))
       );
 
-      const isFile = (await fs.statSync(requestedPath)).isFile();
+      try {
+        const isFile = (await fs.statSync(requestedPath)).isFile();
 
-      if (isFile) {
-        const fileData = await fs.readFileSync(requestedPath);
+        if (isFile) {
+          const fileData = await fs.readFileSync(requestedPath);
+          const contentTypes = ContentTypes as any;
+          let fileExt = requestedPath.split(".").pop() as string;
 
-        res.rawResponse.end(fileData);
-        return;
-      }
+          res.rawResponse.writeHead(
+            200,
+            contentTypes[fileExt]
+              ? {
+                  "Content-Type": contentTypes[fileExt],
+                }
+              : {}
+          );
+
+          res.rawResponse.end(fileData);
+          return;
+        }
+      } catch (err) {}
     }
 
     if (route?.methods.includes(req.method)) {

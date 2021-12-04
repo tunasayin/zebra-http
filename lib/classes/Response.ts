@@ -1,6 +1,15 @@
 import http from "http";
 import fs from "fs";
 
+interface SetCookieOptions {
+  maxAge?: number;
+  expires: Date;
+  domain?: string;
+  path?: string;
+  secure?: boolean;
+  httpOnly?: boolean;
+}
+
 export default class Response {
   rawResponse: http.ServerResponse;
 
@@ -32,8 +41,33 @@ export default class Response {
   }
 
   sendFile(filePath: string) {
-    this.rawResponse.write(fs.readFileSync(filePath, "utf-8"));
+    this.rawResponse.write(fs.readFileSync(filePath));
     return this;
+  }
+
+  setCookie(
+    cookieName: string,
+    cookieValue: string,
+    options?: SetCookieOptions
+  ) {
+    this.rawResponse.setHeader(
+      "Set-Cookie",
+      `${cookieName}=${cookieValue};${
+        options?.expires ? "Expires=" + options.expires + ";" : ""
+      }
+       ${options?.maxAge ? "Max-Age=" + options.maxAge + ";" : ""}
+       ${options?.domain ? "Domain=" + options.domain + ";" : ""}
+       ${options?.path ? "Path=" + options.path + ";" : ""}
+       ${options?.secure ? "Secure;" : ""}
+       ${options?.httpOnly ? "HttpOnly;" : ""}`.trim()
+    );
+  }
+
+  removeCookie(cookieName: string) {
+    this.rawResponse.setHeader(
+      "Set-Cookie",
+      `${cookieName}=; Path=/; Expires=${new Date(1).toUTCString()}`
+    );
   }
 
   end(data?: any): void {
