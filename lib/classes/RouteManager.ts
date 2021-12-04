@@ -1,10 +1,8 @@
-import fs from "fs";
+import fs, { stat } from "fs";
 import path from "path";
-
 import Route from "./Route";
 import Response from "./Response";
 import Request from "./Request";
-
 import { HTTPMethods } from "..";
 import StaticRoute from "./StaticRoute";
 
@@ -50,6 +48,28 @@ export default class RouteManager {
 
   async _handleRoute(req: Request, res: Response, staticRoutes: StaticRoute[]) {
     const route = this.routes.find((x) => x.path === req.path);
+    const staticRoute = staticRoutes.filter((x) =>
+      req.path?.startsWith(x.path)
+    )[0];
+
+    if (staticRoute && staticRoute.path) {
+      const parsedURL = (req.path as string)
+        .split(staticRoute?.path)
+        .filter((x) => x != "");
+
+      const requestedPath = path.normalize(
+        path.join(staticRoute?.content, parsedURL.join("/"))
+      );
+
+      const isFile = (await fs.statSync(requestedPath)).isFile();
+
+      if (isFile) {
+        const fileData = await fs.readFileSync(requestedPath);
+
+        res.rawResponse.end(fileData);
+        return;
+      }
+    }
 
     if (route?.methods.includes(req.method)) {
       try {
@@ -61,34 +81,6 @@ export default class RouteManager {
         route?.exec(req, res);
       } catch (err: any) {
         this._handleRouteError(res, err);
-      }
-    }
-
-    // TODO: https://stackabuse.com/node-http-servers-for-static-file-serving/
-    // serve-static
-    if (req.method === "GET") {
-      console.log(req.path);
-      const staticRoute = staticRoutes.find((x) => x.path === req.path);
-
-      if (staticRoute) {
-        for (var i = 0; i < staticRoute.content.length; i++) {
-          try {
-            const isFile = (
-              await fs.statSync(staticRoute.content[i])
-            )?.isFile();
-            if (isFile) {
-              if (route) return res.end();
-              else {
-                res.rawResponse.write(
-                  await fs.readFileSync(staticRoute.content[i])
-                );
-              }
-            } else {
-            }
-          } catch (err: any) {
-            throw err;
-          }
-        }
       }
     }
   }
@@ -117,4 +109,6 @@ export default class RouteManager {
 
     res.sendHTML(parsedHTML).end();
   }
+
+  async handleStaticRoteError(res: Response): Promise<void> {}
 }

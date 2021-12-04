@@ -33,7 +33,6 @@ var Response = (function () {
     };
     Response.prototype.end = function (data) {
         this.rawResponse.end(data);
-        return null;
     };
     return Response;
 }());

@@ -8,5 +8,5 @@ export default class Response {
     sendHTML(htmlData: string): this;
     sendJSON(jsonData: object): this;
     sendFile(filePath: string): this;
-    end(data?: any): null;
+    end(data?: any): void;
 }

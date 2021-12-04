@@ -13,7 +13,7 @@ app.start(3000, () => {
 });
 
 app.registerRoute("/", ["GET"], (req, res) => {
-  res.sendFile(path.join(__dirname, "html", "index.html"));
+  res.sendFile(path.join(__dirname, "html", "index.html")).end();
 });
 
 app.registerRoute("/text", ["GET"], (req, res) => {

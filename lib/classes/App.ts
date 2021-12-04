@@ -1,9 +1,6 @@
 // Native Modules
 import http from "http";
 import https from "https";
-import path from "path";
-import fs from "fs";
-
 import AppOptions from "./AppOptions";
 import Response from "./Response";
 import Request from "./Request";
@@ -128,28 +125,17 @@ export default class App extends RouteManager {
     this._handleRoute(new Request(req), new Response(res), this.staticRoutes);
   }
 
-  public async serve(
-    path: string,
-    directoryFile: string | string[]
-  ): Promise<void> {
-    return new Promise(async (resolve, reject) => {
-      if (!path.startsWith("/")) reject("Invalid path was specified!");
+  serve(urlPath: string, folderPath: string) {
+    if (!urlPath.startsWith("/")) throw new Error("Invalid url was specified");
 
-      if (!Array.isArray(directoryFile)) directoryFile = [directoryFile];
+    const urlExists = this.staticRoutes.find((x) => x.path === urlPath)
+      ? true
+      : false;
 
-      const staticRoute = this.staticRoutes.find((x) => x.path === path);
+    if (urlExists) throw new Error("Duplicate path");
 
-      if (!staticRoute) {
-        const newStaticRoute = new StaticRoute(path, directoryFile);
-        this.staticRoutes.push(newStaticRoute);
-        resolve();
-      } else {
-        directoryFile.forEach((d) => {
-          staticRoute.content.push(d);
-        });
+    const route = new StaticRoute(urlPath, folderPath);
 
-        resolve();
-      }
-    });
+    this.staticRoutes.push(route);
   }
 }

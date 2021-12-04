@@ -23,5 +23,5 @@ export default class App extends RouteManager {
     constructor({ debug, useSSL, keys }: AppOptions);
     start(httpPort: number, started?: () => void): void;
     private _handleRequest;
-    serve(path: string, directoryFile: string | string[]): Promise<void>;
+    serve(urlPath: string, folderPath: string): void;
 }

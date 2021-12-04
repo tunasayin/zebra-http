@@ -65,13 +65,28 @@ var RouteManager = (function () {
         return route;
     };
     RouteManager.prototype._handleRoute = function (req, res, staticRoutes) {
-        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var route, staticRoute, i, isFile, _b, _c, err_1;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var route, staticRoute, parsedURL, requestedPath, isFile, fileData;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         route = this.routes.find(function (x) { return x.path === req.path; });
+                        staticRoute = staticRoutes.filter(function (x) { var _a; return (_a = req.path) === null || _a === void 0 ? void 0 : _a.startsWith(x.path); })[0];
+                        if (!(staticRoute && staticRoute.path)) return [3, 3];
+                        parsedURL = req.path
+                            .split(staticRoute === null || staticRoute === void 0 ? void 0 : staticRoute.path)
+                            .filter(function (x) { return x != ""; });
+                        requestedPath = path_1.default.normalize(path_1.default.join(staticRoute === null || staticRoute === void 0 ? void 0 : staticRoute.content, parsedURL.join("/")));
+                        return [4, fs_1.default.statSync(requestedPath)];
+                    case 1:
+                        isFile = (_a.sent()).isFile();
+                        if (!isFile) return [3, 3];
+                        return [4, fs_1.default.readFileSync(requestedPath)];
+                    case 2:
+                        fileData = _a.sent();
+                        res.rawResponse.end(fileData);
+                        return [2];
+                    case 3:
                         if (route === null || route === void 0 ? void 0 : route.methods.includes(req.method)) {
                             try {
                                 if (this.debug)
@@ -82,33 +97,7 @@ var RouteManager = (function () {
                                 this._handleRouteError(res, err);
                             }
                         }
-                        if (!(req.method === "GET")) return [3, 8];
-                        staticRoute = staticRoutes.find(function (x) { return x.path === req.path; });
-                        if (!staticRoute) return [3, 8];
-                        i = 0;
-                        _d.label = 1;
-                    case 1:
-                        if (!(i < staticRoute.content.length)) return [3, 8];
-                        _d.label = 2;
-                    case 2:
-                        _d.trys.push([2, 6, , 7]);
-                        return [4, fs_1.default.statSync(staticRoute.content[i])];
-                    case 3:
-                        isFile = (_a = (_d.sent())) === null || _a === void 0 ? void 0 : _a.isFile();
-                        if (!isFile) return [3, 5];
-                        _c = (_b = res.rawResponse).end;
-                        return [4, fs_1.default.readFileSync(staticRoute.content[i])];
-                    case 4:
-                        _c.apply(_b, [_d.sent()]);
-                        return [3, 5];
-                    case 5: return [3, 7];
-                    case 6:
-                        err_1 = _d.sent();
-                        throw err_1;
-                    case 7:
-                        i++;
-                        return [3, 1];
-                    case 8: return [2];
+                        return [2];
                 }
             });
         });
@@ -139,6 +128,11 @@ var RouteManager = (function () {
                 }
             });
         });
+    };
+    RouteManager.prototype.handleStaticRoteError = function (res) {
+        return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2];
+        }); });
     };
     return RouteManager;
 }());

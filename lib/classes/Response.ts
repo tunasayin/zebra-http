@@ -36,8 +36,7 @@ export default class Response {
     return this;
   }
 
-  end(data?: any) {
+  end(data?: any): void {
     this.rawResponse.end(data);
-    return null;
   }
 }
