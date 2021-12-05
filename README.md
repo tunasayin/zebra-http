@@ -2,7 +2,9 @@
 
 <p align="center">HTunaTp is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.</p>
 
-### Basic HTunaTP Server Code Snippet
+<br/> <br/>
+
+## Basic HTunaTP Server Code Snippet
 
 ```js
 const HTunaTP = require("htunatp");
@@ -25,11 +27,11 @@ app.start(3000, () => {
 });
 ```
 
-### TODO
+## TODO
 
 - Better request class
 - Router and Middleware system
 
-### License
+## License
 
 This project is licensed under GNU General Public License v3.0
