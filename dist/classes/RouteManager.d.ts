@@ -7,8 +7,8 @@ export default class RouteManager {
     debug: boolean;
     routes: Route[];
     constructor(debug: boolean);
-    registerRoute(path: string, methods: HTTPMethods[] | HTTPMethods, routeFunction: (req: any, res: any) => void): Route;
+    registerRoute(path: string, methods: HTTPMethods[] | HTTPMethods, routeFunction: (req: any, res: any) => void): void;
     _handleRoute(req: Request, res: Response, staticRoutes: StaticRoute[]): Promise<void>;
-    _handleRouteError(res: Response, err: Error): Promise<void>;
+    _handleRouteError(req: Request, res: Response, err: Error): Promise<void>;
     handleStaticRoteError(res: Response): Promise<void>;
 }

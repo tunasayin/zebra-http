@@ -20,7 +20,7 @@ export default class RouteManager {
     path: string,
     methods: HTTPMethods[] | HTTPMethods,
     routeFunction: (req: any, res: any) => void
-  ): Route {
+  ): void {
     if (!path.startsWith("/"))
       throw new Error(
         "Invalid path name was specified while registering route!"
@@ -43,8 +43,6 @@ export default class RouteManager {
     const route = new Route(path, methods, routeFunction);
 
     this.routes.push(route);
-
-    return route;
   }
 
   async _handleRoute(req: Request, res: Response, staticRoutes: StaticRoute[]) {
@@ -94,13 +92,21 @@ export default class RouteManager {
 
         route?.exec(req, res);
       } catch (err: any) {
-        this._handleRouteError(res, err);
+        this._handleRouteError(req, res, err);
       }
     }
   }
 
-  async _handleRouteError(res: Response, err: Error): Promise<void> {
+  async _handleRouteError(
+    req: Request,
+    res: Response,
+    err: Error
+  ): Promise<void> {
     if (!this.debug) return;
+
+    console.log(
+      `\x1b[32m[hTunaTP]\x1b[0m: \x1b[31mEncountered an error on ${req.method} ${req.path}, open route on browser to see information about the error.\x1b[0m`
+    );
 
     const html = await fs.readFileSync(
       path.join(__dirname, "..", "..", "templates", "error.html"),
