@@ -7,7 +7,8 @@ import Request from "./Request";
 import RouteManager from "./RouteManager";
 import Static from "./StaticRoute";
 import StaticRoute from "./StaticRoute";
-import { HTTPMethods } from "..";
+import { HTTPMethods, Route } from "..";
+import RouteFunction, { RouteFunctionExecute } from "./RouteFuncition";
 
 export default class App extends RouteManager {
   protected servers: {
@@ -142,5 +143,38 @@ export default class App extends RouteManager {
     this.staticRoutes.push(route);
 
     return route;
+  }
+
+  // Shortands
+  get(route: string, routeFunction: RouteFunctionExecute) {
+    this.registerRoute(route, [HTTPMethods.GET], routeFunction);
+  }
+
+  head(route: string, routeFunction: RouteFunctionExecute) {
+    this.registerRoute(route, [HTTPMethods.HEAD], routeFunction);
+  }
+
+  post(route: string, routeFunction: RouteFunctionExecute) {
+    this.registerRoute(route, [HTTPMethods.POST], routeFunction);
+  }
+
+  put(route: string, routeFunction: RouteFunctionExecute) {
+    this.registerRoute(route, [HTTPMethods.PUT], routeFunction);
+  }
+
+  delete(route: string, routeFunction: RouteFunctionExecute) {
+    this.registerRoute(route, [HTTPMethods.DELETE], routeFunction);
+  }
+
+  patch(route: string, routeFunction: RouteFunctionExecute) {
+    this.registerRoute(route, [HTTPMethods.PATCH], routeFunction);
+  }
+
+  all(route: string, routeFunction: RouteFunctionExecute) {
+    const methodsArray = [
+      ...Object.getOwnPropertyNames(HTTPMethods),
+    ] as HTTPMethods[];
+
+    this.registerRoute(route, methodsArray, routeFunction);
   }
 }

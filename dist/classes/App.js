@@ -14,6 +14,15 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -24,6 +33,7 @@ var Response_1 = __importDefault(require("./Response"));
 var Request_1 = __importDefault(require("./Request"));
 var RouteManager_1 = __importDefault(require("./RouteManager"));
 var StaticRoute_1 = __importDefault(require("./StaticRoute"));
+var __1 = require("..");
 var App = (function (_super) {
     __extends(App, _super);
     function App(_a) {
@@ -112,6 +122,28 @@ var App = (function (_super) {
         var route = new StaticRoute_1.default(urlPath, folderPath);
         this.staticRoutes.push(route);
         return route;
+    };
+    App.prototype.get = function (route, routeFunction) {
+        this.registerRoute(route, [__1.HTTPMethods.GET], routeFunction);
+    };
+    App.prototype.head = function (route, routeFunction) {
+        this.registerRoute(route, [__1.HTTPMethods.HEAD], routeFunction);
+    };
+    App.prototype.post = function (route, routeFunction) {
+        this.registerRoute(route, [__1.HTTPMethods.POST], routeFunction);
+    };
+    App.prototype.put = function (route, routeFunction) {
+        this.registerRoute(route, [__1.HTTPMethods.PUT], routeFunction);
+    };
+    App.prototype.delete = function (route, routeFunction) {
+        this.registerRoute(route, [__1.HTTPMethods.DELETE], routeFunction);
+    };
+    App.prototype.patch = function (route, routeFunction) {
+        this.registerRoute(route, [__1.HTTPMethods.PATCH], routeFunction);
+    };
+    App.prototype.all = function (route, routeFunction) {
+        var methodsArray = __spreadArray([], Object.getOwnPropertyNames(__1.HTTPMethods), true);
+        this.registerRoute(route, methodsArray, routeFunction);
     };
     return App;
 }(RouteManager_1.default));

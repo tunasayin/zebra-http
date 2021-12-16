@@ -10,6 +10,7 @@ interface SetCookieOptions {
 }
 export default class Response {
     rawResponse: http.ServerResponse;
+    destroyed: boolean;
     constructor(res: http.ServerResponse);
     setStatus(status: number): this;
     sendText(data: string): this;
@@ -19,5 +20,6 @@ export default class Response {
     setCookie(cookieName: string, cookieValue: string, options?: SetCookieOptions): void;
     removeCookie(cookieName: string): void;
     end(data?: any): void;
+    private responseDestroyed;
 }
 export {};

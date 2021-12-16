@@ -1,7 +1,11 @@
 import { HTTPMethods } from "../constants";
+import Response from "./Response";
+import Request from "./Request";
+import { RouteFunction, RouteFunctionExecute } from "./RouteFuncition";
 export default class Route {
     path: string;
-    methods: HTTPMethods[];
-    exec: (req: any, res: any) => void;
-    constructor(path: string, methods: HTTPMethods[], routeFunction: (req: any, res: any) => void);
+    routeFunctions: RouteFunction[];
+    constructor(path: string, methods: HTTPMethods[], routeFunction: RouteFunctionExecute);
+    getAvailableMethods(): HTTPMethods[];
+    executeRelatedRoutes(method: HTTPMethods, req: Request, res: Response): void;
 }

@@ -31,6 +31,8 @@ app.start(3000, () => {
 
 - Better request class
 - Router and Middleware system
+- Multi threading (creating a thread for every request - to prevent from slowloris there is going to be a timeout)
+- Shorthands like app.get();
 
 ## License
 

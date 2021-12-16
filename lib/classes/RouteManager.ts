@@ -6,6 +6,7 @@ import Request from "./Request";
 import StaticRoute from "./StaticRoute";
 import { HTTPMethods } from "../constants";
 import { ContentTypes } from "..";
+import RouteFunction, { RouteFunctionExecute } from "./RouteFuncition";
 
 export default class RouteManager {
   debug: boolean;
@@ -19,7 +20,7 @@ export default class RouteManager {
   public registerRoute(
     path: string,
     methods: HTTPMethods[] | HTTPMethods,
-    routeFunction: (req: any, res: any) => void
+    routeFunction: RouteFunctionExecute
   ): void {
     if (!path.startsWith("/"))
       throw new Error(
@@ -40,9 +41,18 @@ export default class RouteManager {
         );
     }
 
-    const route = new Route(path, methods, routeFunction);
+    const routeAlreadyExists =
+      this.routes.filter((x) => x.path == path).length == 0 ? false : true;
 
-    this.routes.push(route);
+    if (routeAlreadyExists) {
+      const route = this.routes.find((x) => x.path == path);
+      const routeFunc = new RouteFunction(methods, routeFunction);
+      route?.routeFunctions.push(routeFunc);
+    } else {
+      const route = new Route(path, methods, routeFunction);
+
+      this.routes.push(route);
+    }
   }
 
   async _handleRoute(req: Request, res: Response, staticRoutes: StaticRoute[]) {
@@ -83,14 +93,14 @@ export default class RouteManager {
       } catch (err) {}
     }
 
-    if (route?.methods.includes(req.method)) {
+    if (route?.getAvailableMethods().includes(req.method)) {
       try {
         if (this.debug)
           console.log(
             `\x1b[32m[hTunaTP]\x1b[0m: Recieved, a request executing route ${route.path}.`
           );
 
-        route?.exec(req, res);
+        route.executeRelatedRoutes(req.method, req, res);
       } catch (err: any) {
         this._handleRouteError(req, res, err);
       }

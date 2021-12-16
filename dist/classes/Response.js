@@ -7,27 +7,38 @@ var fs_1 = __importDefault(require("fs"));
 var Response = (function () {
     function Response(res) {
         this.rawResponse = res;
+        this.destroyed = false;
     }
     Response.prototype.setStatus = function (status) {
+        if (this.destroyed)
+            this.responseDestroyed();
         this.rawResponse.writeHead(status);
         return this;
     };
     Response.prototype.sendText = function (data) {
+        if (this.destroyed)
+            this.responseDestroyed();
         this.rawResponse.setHeader("Content-Type", "text/plain");
         this.rawResponse.write(data);
         return this;
     };
     Response.prototype.sendHTML = function (htmlData) {
+        if (this.destroyed)
+            this.responseDestroyed();
         this.rawResponse.setHeader("Content-Type", "text/html");
         this.rawResponse.write(htmlData);
         return this;
     };
     Response.prototype.sendJSON = function (jsonData) {
+        if (this.destroyed)
+            this.responseDestroyed();
         this.rawResponse.setHeader("Content-Type", "application/json");
         this.rawResponse.write(JSON.stringify(jsonData));
         return this;
     };
     Response.prototype.sendFile = function (filePath) {
+        if (this.destroyed)
+            this.responseDestroyed();
         this.rawResponse.write(fs_1.default.readFileSync(filePath));
         return this;
     };
@@ -39,6 +50,10 @@ var Response = (function () {
     };
     Response.prototype.end = function (data) {
         this.rawResponse.end(data);
+        this.destroyed = true;
+    };
+    Response.prototype.responseDestroyed = function () {
+        throw new Error("Cannot use response class after using end function.");
     };
     return Response;
 }());

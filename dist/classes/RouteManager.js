@@ -44,6 +44,7 @@ var path_1 = __importDefault(require("path"));
 var Route_1 = __importDefault(require("./Route"));
 var constants_1 = require("../constants");
 var __1 = require("..");
+var RouteFuncition_1 = __importDefault(require("./RouteFuncition"));
 var RouteManager = (function () {
     function RouteManager(debug) {
         this.debug = debug;
@@ -61,8 +62,16 @@ var RouteManager = (function () {
             if (!constants_1.HTTPMethods[methods[i]])
                 throw new Error("Invalid method was specified while registering route!");
         }
-        var route = new Route_1.default(path, methods, routeFunction);
-        this.routes.push(route);
+        var routeAlreadyExists = this.routes.filter(function (x) { return x.path == path; }).length == 0 ? false : true;
+        if (routeAlreadyExists) {
+            var route = this.routes.find(function (x) { return x.path == path; });
+            var routeFunc = new RouteFuncition_1.default(methods, routeFunction);
+            route === null || route === void 0 ? void 0 : route.routeFunctions.push(routeFunc);
+        }
+        else {
+            var route = new Route_1.default(path, methods, routeFunction);
+            this.routes.push(route);
+        }
     };
     RouteManager.prototype._handleRoute = function (req, res, staticRoutes) {
         return __awaiter(this, void 0, void 0, function () {
@@ -101,11 +110,11 @@ var RouteManager = (function () {
                         err_1 = _a.sent();
                         return [3, 6];
                     case 6:
-                        if (route === null || route === void 0 ? void 0 : route.methods.includes(req.method)) {
+                        if (route === null || route === void 0 ? void 0 : route.getAvailableMethods().includes(req.method)) {
                             try {
                                 if (this.debug)
                                     console.log("\u001B[32m[hTunaTP]\u001B[0m: Recieved, a request executing route " + route.path + ".");
-                                route === null || route === void 0 ? void 0 : route.exec(req, res);
+                                route.executeRelatedRoutes(req.method, req, res);
                             }
                             catch (err) {
                                 this._handleRouteError(req, res, err);
