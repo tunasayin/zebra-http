@@ -75,7 +75,7 @@ var RouteManager = (function () {
     };
     RouteManager.prototype._handleRoute = function (req, res, staticRoutes) {
         return __awaiter(this, void 0, void 0, function () {
-            var route, staticRoute, parsedURL, requestedPath, isFile, fileData, contentTypes, fileExt, err_1;
+            var route, staticRoute, parsedURL, i, requestedPath, isFile, fileData, contentTypes, fileExt, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -85,6 +85,10 @@ var RouteManager = (function () {
                         parsedURL = req.path
                             .split(staticRoute === null || staticRoute === void 0 ? void 0 : staticRoute.path)
                             .filter(function (x) { return x != ""; });
+                        for (i = 0; i < parsedURL.length; i++) {
+                            if (parsedURL[i] == "..")
+                                parsedURL[i] = "";
+                        }
                         requestedPath = path_1.default.normalize(path_1.default.join(staticRoute === null || staticRoute === void 0 ? void 0 : staticRoute.content, parsedURL.join("/")));
                         _a.label = 1;
                     case 1:

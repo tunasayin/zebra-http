@@ -7,12 +7,8 @@ const app = new HTunaTP.App({
 
 app.serve("/", path.join(__dirname, "public"));
 
-app.registerRoute("/", ["GET"], (req, res) => {
-  console.log("SJ");
-});
-
-app.registerRoute("/", ["GET", "POST"], (req, res) => {
-  console.log("SJ2");
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "html", "index.html")).end();
 });
 
 app.start(3000, () => {

@@ -66,6 +66,11 @@ export default class RouteManager {
         .split(staticRoute?.path)
         .filter((x) => x != "");
 
+      // Clear .. in route to prevent from clients accessing outside of the static folder
+      for (var i = 0; i < parsedURL.length; i++) {
+        if (parsedURL[i] == "..") parsedURL[i] = "";
+      }
+
       const requestedPath = path.normalize(
         path.join(staticRoute?.content, parsedURL.join("/"))
       );
@@ -140,5 +145,6 @@ export default class RouteManager {
     res.sendHTML(parsedHTML).end();
   }
 
+  // TODO
   async handleStaticRoteError(res: Response): Promise<void> {}
 }
