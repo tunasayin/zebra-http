@@ -16,10 +16,13 @@ const app = new HTunaTP.App({
 
 app.serve("/assets", path.join(__dirname, "/assets"));
 
-app.registerRoute("/", ["GET"], (req, res) => {
-  res.sendText("Hello World!");
+app.get("/", (req, res) => {
+  res.sendText("Hello World!").end();
+});
 
-  res.end();
+// Or to combie multiple methods in one function you can also use this approach.
+app.registerRoute("/", ["GET", "POST"], (req, res) => {
+  res.sendText("Hello World!").end();
 });
 
 app.start(3000, () => {
@@ -32,8 +35,7 @@ app.start(3000, () => {
 - Better request class
 - Router and Middleware system
 - Multi threading (creating a thread for every request - to prevent from slowloris there is going to be a timeout)
-- Shorthands like app.get();
 
 ## License
 
-This project is licensed under GNU General Public License v3.0
+This project is licensed under GNU General Public License v3.0.
