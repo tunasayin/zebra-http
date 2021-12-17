@@ -1,14 +1,6 @@
 import http from "http";
 import fs from "fs";
-
-interface SetCookieOptions {
-  maxAge?: number;
-  expires: Date;
-  domain?: string;
-  path?: string;
-  secure?: boolean;
-  httpOnly?: boolean;
-}
+import { SetCookieOptions } from "../constants";
 
 export default class Response {
   rawResponse: http.ServerResponse;

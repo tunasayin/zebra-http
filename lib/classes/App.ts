@@ -1,16 +1,14 @@
 // Native Modules
 import http from "http";
 import https from "https";
-import AppOptions from "./AppOptions";
 import Response from "./Response";
 import Request from "./Request";
-import RouteManager from "./RouteManager";
 import Static from "./StaticRoute";
 import StaticRoute from "./StaticRoute";
-import { HTTPMethods, Route } from "..";
-import RouteFunction, { RouteFunctionExecute } from "./RouteFuncition";
+import MiddlewareManager from "./MiddlewareManager";
+import { AppOptions, RouteFunctionExecute, HTTPMethods } from "../constants";
 
-export default class App extends RouteManager {
+export default class App extends MiddlewareManager {
   protected servers: {
     http: http.Server;
     https: https.Server | null;
@@ -124,7 +122,12 @@ export default class App extends RouteManager {
       return;
     }
 
-    this._handleRoute(new Request(req), new Response(res), this.staticRoutes);
+    let request = new Request(req);
+    let response = new Response(res);
+
+    [request, response] = this.executeMiddlewares(request, response);
+
+    this._handleRoute(request, response, this.staticRoutes);
   }
 
   serve(urlPath: string, folderPath: string): StaticRoute {

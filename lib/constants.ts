@@ -1,3 +1,33 @@
+import Request from "./classes/Request";
+import Response from "./classes/Response";
+
+interface AppOptions {
+  debug: boolean;
+  useSSL: boolean | undefined;
+  keys:
+    | {
+        key: string;
+        cert: string;
+        ca: string;
+      }
+    | undefined;
+}
+
+interface SetCookieOptions {
+  maxAge?: number;
+  expires: Date;
+  domain?: string;
+  path?: string;
+  secure?: boolean;
+  httpOnly?: boolean;
+}
+
+type MiddlewareFunctionExecute = {
+  (req: Request, res: Response): [Request, Response];
+};
+
+type RouteFunctionExecute = (req: any, res: any) => void;
+
 enum HTTPMethods {
   GET = "GET",
   HEAD = "HEAD",
@@ -21,4 +51,11 @@ enum ContentTypes {
   "x-www-form-urlencoded" = "application/x-www-form-urlencoded",
 }
 
-export { HTTPMethods, ContentTypes };
+export {
+  AppOptions,
+  SetCookieOptions,
+  MiddlewareFunctionExecute,
+  RouteFunctionExecute,
+  HTTPMethods,
+  ContentTypes,
+};

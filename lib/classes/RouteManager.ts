@@ -4,9 +4,8 @@ import Route from "./Route";
 import Response from "./Response";
 import Request from "./Request";
 import StaticRoute from "./StaticRoute";
-import { HTTPMethods } from "../constants";
-import { ContentTypes } from "..";
-import RouteFunction, { RouteFunctionExecute } from "./RouteFuncition";
+import { RouteFunctionExecute, HTTPMethods, ContentTypes } from "../constants";
+import RouteFunction from "./RouteFuncition";
 
 export default class RouteManager {
   debug: boolean;
@@ -72,7 +71,10 @@ export default class RouteManager {
       }
 
       const requestedPath = path.normalize(
-        path.join(staticRoute?.content, parsedURL.join("/"))
+        path.join(
+          staticRoute?.content,
+          parsedURL.filter((x) => x != "").join("/")
+        )
       );
 
       try {

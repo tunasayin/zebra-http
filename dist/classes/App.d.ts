@@ -1,12 +1,11 @@
 /// <reference types="node" />
 import http from "http";
 import https from "https";
-import AppOptions from "./AppOptions";
-import RouteManager from "./RouteManager";
 import Static from "./StaticRoute";
 import StaticRoute from "./StaticRoute";
-import { RouteFunctionExecute } from "./RouteFuncition";
-export default class App extends RouteManager {
+import MiddlewareManager from "./MiddlewareManager";
+import { AppOptions, RouteFunctionExecute } from "../constants";
+export default class App extends MiddlewareManager {
     protected servers: {
         http: http.Server;
         https: https.Server | null;

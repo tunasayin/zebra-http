@@ -2,8 +2,7 @@ import Route from "./Route";
 import Response from "./Response";
 import Request from "./Request";
 import StaticRoute from "./StaticRoute";
-import { HTTPMethods } from "../constants";
-import { RouteFunctionExecute } from "./RouteFuncition";
+import { RouteFunctionExecute, HTTPMethods } from "../constants";
 export default class RouteManager {
     debug: boolean;
     routes: Route[];

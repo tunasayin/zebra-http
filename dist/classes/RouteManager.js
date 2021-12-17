@@ -43,7 +43,6 @@ var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var Route_1 = __importDefault(require("./Route"));
 var constants_1 = require("../constants");
-var __1 = require("..");
 var RouteFuncition_1 = __importDefault(require("./RouteFuncition"));
 var RouteManager = (function () {
     function RouteManager(debug) {
@@ -89,7 +88,7 @@ var RouteManager = (function () {
                             if (parsedURL[i] == "..")
                                 parsedURL[i] = "";
                         }
-                        requestedPath = path_1.default.normalize(path_1.default.join(staticRoute === null || staticRoute === void 0 ? void 0 : staticRoute.content, parsedURL.join("/")));
+                        requestedPath = path_1.default.normalize(path_1.default.join(staticRoute === null || staticRoute === void 0 ? void 0 : staticRoute.content, parsedURL.filter(function (x) { return x != ""; }).join("/")));
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 5, , 6]);
@@ -100,7 +99,7 @@ var RouteManager = (function () {
                         return [4, fs_1.default.readFileSync(requestedPath)];
                     case 3:
                         fileData = _a.sent();
-                        contentTypes = __1.ContentTypes;
+                        contentTypes = constants_1.ContentTypes;
                         fileExt = requestedPath.split(".").pop();
                         res.rawResponse.writeHead(200, contentTypes[fileExt]
                             ? {

@@ -31,9 +31,9 @@ var http_1 = __importDefault(require("http"));
 var https_1 = __importDefault(require("https"));
 var Response_1 = __importDefault(require("./Response"));
 var Request_1 = __importDefault(require("./Request"));
-var RouteManager_1 = __importDefault(require("./RouteManager"));
 var StaticRoute_1 = __importDefault(require("./StaticRoute"));
-var __1 = require("..");
+var MiddlewareManager_1 = __importDefault(require("./MiddlewareManager"));
+var constants_1 = require("../constants");
 var App = (function (_super) {
     __extends(App, _super);
     function App(_a) {
@@ -102,6 +102,7 @@ var App = (function (_super) {
         }
     };
     App.prototype._handleRequest = function (req, res, isHTTP) {
+        var _a;
         if (this.keys && isHTTP) {
             res.writeHead(301, {
                 Location: "https://" + req.headers["host"] + req.url,
@@ -109,7 +110,10 @@ var App = (function (_super) {
             res.end();
             return;
         }
-        this._handleRoute(new Request_1.default(req), new Response_1.default(res), this.staticRoutes);
+        var request = new Request_1.default(req);
+        var response = new Response_1.default(res);
+        _a = this.executeMiddlewares(request, response), request = _a[0], response = _a[1];
+        this._handleRoute(request, response, this.staticRoutes);
     };
     App.prototype.serve = function (urlPath, folderPath) {
         if (!urlPath.startsWith("/"))
@@ -124,27 +128,27 @@ var App = (function (_super) {
         return route;
     };
     App.prototype.get = function (route, routeFunction) {
-        this.registerRoute(route, [__1.HTTPMethods.GET], routeFunction);
+        this.registerRoute(route, [constants_1.HTTPMethods.GET], routeFunction);
     };
     App.prototype.head = function (route, routeFunction) {
-        this.registerRoute(route, [__1.HTTPMethods.HEAD], routeFunction);
+        this.registerRoute(route, [constants_1.HTTPMethods.HEAD], routeFunction);
     };
     App.prototype.post = function (route, routeFunction) {
-        this.registerRoute(route, [__1.HTTPMethods.POST], routeFunction);
+        this.registerRoute(route, [constants_1.HTTPMethods.POST], routeFunction);
     };
     App.prototype.put = function (route, routeFunction) {
-        this.registerRoute(route, [__1.HTTPMethods.PUT], routeFunction);
+        this.registerRoute(route, [constants_1.HTTPMethods.PUT], routeFunction);
     };
     App.prototype.delete = function (route, routeFunction) {
-        this.registerRoute(route, [__1.HTTPMethods.DELETE], routeFunction);
+        this.registerRoute(route, [constants_1.HTTPMethods.DELETE], routeFunction);
     };
     App.prototype.patch = function (route, routeFunction) {
-        this.registerRoute(route, [__1.HTTPMethods.PATCH], routeFunction);
+        this.registerRoute(route, [constants_1.HTTPMethods.PATCH], routeFunction);
     };
     App.prototype.all = function (route, routeFunction) {
-        var methodsArray = __spreadArray([], Object.getOwnPropertyNames(__1.HTTPMethods), true);
+        var methodsArray = __spreadArray([], Object.getOwnPropertyNames(constants_1.HTTPMethods), true);
         this.registerRoute(route, methodsArray, routeFunction);
     };
     return App;
-}(RouteManager_1.default));
+}(MiddlewareManager_1.default));
 exports.default = App;

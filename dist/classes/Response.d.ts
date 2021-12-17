@@ -1,13 +1,6 @@
 /// <reference types="node" />
 import http from "http";
-interface SetCookieOptions {
-    maxAge?: number;
-    expires: Date;
-    domain?: string;
-    path?: string;
-    secure?: boolean;
-    httpOnly?: boolean;
-}
+import { SetCookieOptions } from "../constants";
 export default class Response {
     rawResponse: http.ServerResponse;
     destroyed: boolean;
@@ -22,4 +15,3 @@ export default class Response {
     end(data?: any): void;
     private responseDestroyed;
 }
-export {};

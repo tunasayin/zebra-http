@@ -1,6 +1,4 @@
-import { HTTPMethods } from "..";
-
-type RouteFunctionExecute = (req: any, res: any) => void;
+import { RouteFunctionExecute, HTTPMethods } from "../constants";
 
 class RouteFunction {
   methods: HTTPMethods[];
@@ -13,4 +11,3 @@ class RouteFunction {
 }
 
 export default RouteFunction;
-export { RouteFunction, RouteFunctionExecute };

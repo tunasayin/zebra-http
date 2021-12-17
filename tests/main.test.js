@@ -7,6 +7,10 @@ const app = new HTunaTP.App({
 
 app.serve("/", path.join(__dirname, "public"));
 
+app.createMiddleware((req, res) => {
+  return [req, res];
+});
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "html", "index.html")).end();
 });
