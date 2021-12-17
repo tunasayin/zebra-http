@@ -1,10 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var RouteFuncition_1 = require("./RouteFuncition");
+var RouteFuncition_1 = __importDefault(require("./RouteFuncition"));
 var Route = (function () {
     function Route(path, methods, routeFunction) {
         this.path = path.trim();
-        this.routeFunctions = [new RouteFuncition_1.RouteFunction(methods, routeFunction)];
+        this.routeFunctions = [new RouteFuncition_1.default(methods, routeFunction)];
     }
     Route.prototype.getAvailableMethods = function () {
         var methods = [];

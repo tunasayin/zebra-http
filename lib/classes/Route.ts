@@ -1,7 +1,7 @@
-import { HTTPMethods } from "../constants";
 import Response from "./Response";
 import Request from "./Request";
-import { RouteFunction, RouteFunctionExecute } from "./RouteFuncition";
+import RouteFunction from "./RouteFuncition";
+import { RouteFunctionExecute, HTTPMethods } from "../constants";
 
 export default class Route {
   path: string;

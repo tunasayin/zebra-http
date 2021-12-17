@@ -32,8 +32,8 @@ app.start(3000, () => {
 
 ## TODO
 
+- Middleware system specific for routes (router).
 - Better request class
-- Router and Middleware system
 - Multi threading (creating a thread for every request - to prevent from slowloris there is going to be a timeout)
 
 ## License

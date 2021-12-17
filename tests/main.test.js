@@ -8,6 +8,7 @@ const app = new HTunaTP.App({
 app.serve("/", path.join(__dirname, "public"));
 
 app.createMiddleware((req, res) => {
+  console.log("Recieved a request!");
   return [req, res];
 });
 

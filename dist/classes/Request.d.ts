@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import http from "http";
-import { HTTPMethods } from "..";
+import { HTTPMethods } from "../constants";
 export default class Request {
     rawRequest: http.IncomingMessage;
     method: HTTPMethods;
