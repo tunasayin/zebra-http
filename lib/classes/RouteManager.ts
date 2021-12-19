@@ -104,7 +104,7 @@ export default class RouteManager {
       try {
         if (this.debug)
           console.log(
-            `\x1b[32m[Beaver]\x1b[0m: Recieved, a request executing route ${route.path}.`
+            `\x1b[32m[beaver-http]\x1b[0m: Recieved, a request executing route ${route.path}.`
           );
 
         route.executeRelatedRoutes(req.method, req, res);
@@ -122,7 +122,7 @@ export default class RouteManager {
     if (!this.debug) return;
 
     console.log(
-      `\x1b[32m[Beaver]\x1b[0m: \x1b[31mEncountered an error on ${req.method} ${req.path}, open route on browser to see information about the error.\x1b[0m`
+      `\x1b[32m[beaver-http]\x1b[0m: \x1b[31mEncountered an error on ${req.method} ${req.path}, open route on browser to see information about the error.\x1b[0m`
     );
 
     const html = await fs.readFileSync(

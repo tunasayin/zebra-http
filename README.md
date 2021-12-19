@@ -7,7 +7,7 @@
 ## Basic Beaver Server Code Snippet
 
 ```js
-const Beaver = require("beaver");
+const Beaver = require("beaver-http");
 const path = require("path");
 
 const app = new Beaver.App({

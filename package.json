@@ -1,5 +1,5 @@
 {
-  "name": "beaver",
+  "name": "beaver-http",
   "version": "1.0.0",
   "description": "Beaver is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.",
   "main": "dist/index",

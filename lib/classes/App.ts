@@ -76,7 +76,7 @@ export default class App extends MiddlewareManager {
       canRun += 1;
     } catch (err) {
       throw new Error(
-        `\x1b[32m[Beaver]\x1b[0m: An unexpected error occued while starting HTTP server. \n${err}`
+        `\x1b[32m[beaver-http]\x1b[0m: An unexpected error occued while starting HTTP server. \n${err}`
       );
     }
 
@@ -87,7 +87,7 @@ export default class App extends MiddlewareManager {
         canRun += 1;
       } catch (err) {
         throw new Error(
-          `\x1b[32m[Beaver]\x1b[0m: An unexpected error occured while starting HTTPS server. \n${err}`
+          `\x1b[32m[beaver-http]\x1b[0m: An unexpected error occured while starting HTTPS server. \n${err}`
         );
       }
     } else {
