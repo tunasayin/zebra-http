@@ -1,6 +1,6 @@
 {
   "name": "zebra-http",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Zebra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.",
   "main": "dist/index",
   "directories": {
