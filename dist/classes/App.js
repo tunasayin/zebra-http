@@ -77,7 +77,7 @@ var App = (function (_super) {
             canRun += 1;
         }
         catch (err) {
-            throw new Error("\u001B[32m[hTunaTP]\u001B[0m: An unexpected error occued while starting HTTP server. \n" + err);
+            throw new Error("\u001B[32m[hTunaTP]\u001B[0m: An unexpected error occued while starting HTTP server. \n".concat(err));
         }
         if (this.keys) {
             try {
@@ -85,7 +85,7 @@ var App = (function (_super) {
                 canRun += 1;
             }
             catch (err) {
-                throw new Error("\u001B[32m[hTunaTP]\u001B[0m: An unexpected error occured while starting HTTPS server. \n" + err);
+                throw new Error("\u001B[32m[hTunaTP]\u001B[0m: An unexpected error occured while starting HTTPS server. \n".concat(err));
             }
         }
         else {

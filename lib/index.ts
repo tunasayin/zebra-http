@@ -5,11 +5,4 @@ import Response from "./classes/Response";
 import Route from "./classes/Route";
 import StaticRoute from "./classes/StaticRoute";
 
-export default {
-  App,
-  MiddlewareManager,
-  Request,
-  Response,
-  Route,
-  StaticRoute,
-};
+export { App, MiddlewareManager, Request, Response, Route, StaticRoute };
