@@ -1,7 +1,7 @@
 {
-  "name": "beaver-http",
+  "name": "zebra-http",
   "version": "1.0.0",
-  "description": "Beaver is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.",
+  "description": "Zebra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.",
   "main": "dist/index",
   "directories": {
     "test": "tests"
@@ -23,6 +23,6 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/tunasayin/beaver-http.git"
+    "url": "https://github.com/tunasayin/zebra-http.git"
   }
 }

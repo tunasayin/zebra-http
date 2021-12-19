@@ -20,7 +20,7 @@ class MiddlewareManager extends RouteManager {
   public executeMiddlewares(req: Request, res: Response): [Request, Response] {
     if (this.debug)
       console.log(
-        "\x1b[32m[beaver-http]\x1b[0m: Recieved a request, executing middlewares"
+        "\x1b[32m[zebra-http]\x1b[0m: Recieved a request, executing middlewares"
       );
     let request = req;
     let response = res;

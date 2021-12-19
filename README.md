@@ -1,16 +1,16 @@
-<h1 align="center"> Beaver </h1>
+<h1 align="center"> Zebra </h1>
 
-<p align="center">Beaver is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.</p>
+<p align="center">Zebra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.</p>
 
 <br/> <br/>
 
-## Basic Beaver Server Code Snippet
+## Basic Zebra Server Code Snippet
 
 ```js
-const Beaver = require("beaver-http");
+const Zebra = require("zebra-http");
 const path = require("path");
 
-const app = new Beaver.App({
+const app = new Zebra.App({
   debug: true,
 });
 
