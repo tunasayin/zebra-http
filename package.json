@@ -1,7 +1,7 @@
 {
-  "name": "zebra",
+  "name": "beaver",
   "version": "1.0.0",
-  "description": "Zebra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.",
+  "description": "Beaver is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.",
   "main": "dist/index",
   "directories": {
     "test": "tests"

@@ -1,7 +1,7 @@
-const Zebra = require("../dist/index");
+const Beaver = require("../dist/index");
 const path = require("path");
 
-const app = new Zebra.App({
+const app = new Beaver.App({
   debug: true,
 });
 
