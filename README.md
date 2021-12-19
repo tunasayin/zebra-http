@@ -1,16 +1,16 @@
-<h1 align="center"> HTunaTP </h1>
+<h1 align="center"> Zebra </h1>
 
-<p align="center">HTunaTp is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.</p>
+<p align="center">Zebra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.</p>
 
 <br/> <br/>
 
-## Basic HTunaTP Server Code Snippet
+## Basic Zebra Server Code Snippet
 
 ```js
-const HTunaTP = require("htunatp");
+const Zebra = require("zebra");
 const path = require("path");
 
-const app = new HTunaTP.App({
+const app = new Zebra.App({
   debug: true,
 });
 

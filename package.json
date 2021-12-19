@@ -1,7 +1,7 @@
 {
-  "name": "htunatp",
+  "name": "zebra",
   "version": "1.0.0",
-  "description": "",
+  "description": "Zebra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.",
   "main": "dist/index",
   "directories": {
     "test": "tests"

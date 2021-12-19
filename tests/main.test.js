@@ -1,7 +1,7 @@
-const HTunaTP = require("../dist/index");
+const Zebra = require("../dist/index");
 const path = require("path");
 
-const app = new HTunaTP.App({
+const app = new Zebra.App({
   debug: true,
 });
 
