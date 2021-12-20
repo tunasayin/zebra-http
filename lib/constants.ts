@@ -6,7 +6,7 @@ interface AppOptions {
   useSSL: boolean | undefined;
   keys:
     | {
-        key: string;
+        privkey: string;
         cert: string;
         ca: string;
       }

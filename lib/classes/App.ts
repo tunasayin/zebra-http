@@ -22,7 +22,7 @@ export default class App extends MiddlewareManager {
   readonly debug: boolean;
 
   readonly keys: {
-    key: string;
+    privkey: string;
     cert: string;
     ca: string;
   } | null;

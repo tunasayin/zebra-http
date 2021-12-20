@@ -1,10 +1,17 @@
 <h1 align="center"> Zebra </h1>
 
 <p align="center">Zebra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.</p>
+<p allign="center">[![NPM Version][https://img.shields.io/npm/v/zebra-http.svg]][https://npmjs.org/package/zebra-http] [![NPM Downloads][https://img.shields.io/npm/dm/zebra-http.svg]][https://npmjs.org/package/zebra-http]</p>
 
-<br/> <br/>
+## Features
 
-## Basic Zebra Server Code Snippet
+- Fast
+- Lightweight
+- Object-oriented
+
+<br/>
+
+## Example Zebra Server
 
 ```js
 const Zebra = require("zebra-http");
@@ -13,8 +20,6 @@ const path = require("path");
 const app = new Zebra.App({
   debug: true,
 });
-
-app.serve("/assets", path.join(__dirname, "/assets"));
 
 app.get("/", (req, res) => {
   res.sendText("Hello World!").end();
