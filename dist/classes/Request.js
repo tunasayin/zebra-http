@@ -2,12 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var constants_1 = require("../constants");
 var Request = (function () {
-    function Request(res) {
+    function Request(req) {
         var _this = this;
         var _a;
-        this.rawRequest = res;
+        this.rawRequest = req;
         this.method = this.rawRequest.method || constants_1.HTTPMethods.GET;
         this.path = this.rawRequest.url;
+        this.body = this.rawRequest.body;
         this.cookies = {};
         (_a = this.rawRequest.headers.cookie) === null || _a === void 0 ? void 0 : _a.toString().split(";").forEach(function (cookie) {
             var _a;

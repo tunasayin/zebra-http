@@ -107,11 +107,12 @@ export default class App extends MiddlewareManager {
     }
   }
 
-  private _handleRequest(
+  private async _handleRequest(
     req: http.IncomingMessage,
     res: http.ServerResponse,
     isHTTP: boolean
-  ): void {
+  ): Promise<void> {
+    // If ssl is enabled redirect http to https
     if (this.keys && isHTTP) {
       res.writeHead(301, {
         Location: "https://" + req.headers["host"] + req.url,
@@ -120,6 +121,28 @@ export default class App extends MiddlewareManager {
       res.end();
 
       return;
+    }
+
+    // Pase body if exists and attach it
+    if (req.readable) {
+      await new Promise((resolve) => {
+        let data = "";
+        req.on("data", (chunk) => (data += chunk));
+        req.on("end", () => {
+          // Parse data if exists
+          if (data.length != 0) {
+            // Parse json if data is json
+            try {
+              let json = JSON.parse(data);
+              data = json;
+            } catch (err) {}
+
+            Object.assign(req, { body: data });
+
+            resolve(null);
+          }
+        });
+      });
     }
 
     let request = new Request(req);

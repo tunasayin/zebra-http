@@ -5,7 +5,8 @@ export default class Request {
     rawRequest: http.IncomingMessage;
     method: HTTPMethods;
     path: string | undefined;
+    body: object | string | undefined;
     cookies: object;
-    constructor(res: http.IncomingMessage);
+    constructor(req: http.IncomingMessage);
     getCookie(cookieName: string): string | null;
 }

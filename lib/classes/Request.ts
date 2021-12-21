@@ -7,15 +7,17 @@ export default class Request {
   // Shortcuts
   method: HTTPMethods;
   path: string | undefined;
+  body: object | string | undefined;
 
   cookies: object;
 
-  constructor(res: http.IncomingMessage) {
-    this.rawRequest = res;
+  constructor(req: http.IncomingMessage) {
+    this.rawRequest = req;
 
     // Shortcuts
     this.method = (this.rawRequest.method as HTTPMethods) || HTTPMethods.GET;
     this.path = this.rawRequest.url;
+    this.body = (this.rawRequest as any).body;
 
     this.cookies = {};
 
