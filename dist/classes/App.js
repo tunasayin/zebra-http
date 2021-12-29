@@ -163,8 +163,8 @@ var App = (function (_super) {
                                         }
                                         catch (err) { }
                                         Object.assign(req, { body: data });
-                                        resolve(null);
                                     }
+                                    resolve(null);
                                 });
                             })];
                     case 1:

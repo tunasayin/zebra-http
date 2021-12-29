@@ -138,9 +138,9 @@ export default class App extends MiddlewareManager {
             } catch (err) {}
 
             Object.assign(req, { body: data });
-
-            resolve(null);
           }
+
+          resolve(null);
         });
       });
     }
