@@ -3,12 +3,8 @@
   "version": "1.0.5",
   "description": "Zibra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.",
   "main": "dist/index",
-  "directories": {
-    "test": "tests"
-  },
   "scripts": {
-    "build-docs": "typedoc lib/index.ts",
-    "test": "node tests/main.test.js"
+    "build-docs": "typedoc lib/index.ts"
   },
   "keywords": [
     "httpserver",
