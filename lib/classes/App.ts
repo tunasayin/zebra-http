@@ -1,12 +1,14 @@
 // Native Modules
 import http from "http";
 import https from "https";
+import path from "path";
 import Response from "./Response";
 import Request from "./Request";
 import Static from "./StaticRoute";
 import StaticRoute from "./StaticRoute";
 import MiddlewareManager from "./MiddlewareManager";
 import { AppOptions, RouteFunctionExecute, HTTPMethods } from "../constants";
+import Router from "./Router";
 
 export default class App extends MiddlewareManager {
   protected servers: {
@@ -76,7 +78,7 @@ export default class App extends MiddlewareManager {
       canRun += 1;
     } catch (err) {
       throw new Error(
-        `\x1b[32m[zebra-http]\x1b[0m: An unexpected error occued while starting HTTP server. \n${err}`
+        `\x1b[32m[zibra]\x1b[0m: An unexpected error occued while starting HTTP server. \n${err}`
       );
     }
 
@@ -87,7 +89,7 @@ export default class App extends MiddlewareManager {
         canRun += 1;
       } catch (err) {
         throw new Error(
-          `\x1b[32m[zebra-http]\x1b[0m: An unexpected error occured while starting HTTPS server. \n${err}`
+          `\x1b[32m[zibra]\x1b[0m: An unexpected error occured while starting HTTPS server. \n${err}`
         );
       }
     } else {
@@ -153,6 +155,7 @@ export default class App extends MiddlewareManager {
     this._handleRoute(request, response, this.staticRoutes);
   }
 
+  // Serves static files
   serve(urlPath: string, folderPath: string): StaticRoute {
     if (!urlPath.startsWith("/"))
       throw new Error("Invalid url path was specified for static route");
@@ -169,6 +172,18 @@ export default class App extends MiddlewareManager {
     this.staticRoutes.push(route);
 
     return route;
+  }
+
+  useRouter(router: Router) {
+    router.routes.forEach((route) => {
+      const routePath = path
+        .normalize(path.join(router.path, route.path))
+        .replace(/\\/g, "/");
+
+      route.routeFunctions.forEach((routeFunc) => {
+        this.registerRoute(routePath, routeFunc.methods, routeFunc.execute);
+      });
+    });
   }
 
   // Shortands

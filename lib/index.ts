@@ -3,6 +3,7 @@ import MiddlewareManager from "./classes/MiddlewareManager";
 import Request from "./classes/Request";
 import Response from "./classes/Response";
 import Route from "./classes/Route";
+import Router from "./classes/Router";
 import StaticRoute from "./classes/StaticRoute";
 import {
   AppOptions,
@@ -19,6 +20,7 @@ export {
   Request,
   Response,
   Route,
+  Router,
   StaticRoute,
   AppOptions,
   SetCookieOptions,

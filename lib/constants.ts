@@ -22,6 +22,10 @@ interface SetCookieOptions {
   httpOnly?: boolean;
 }
 
+interface RouterArgs {
+  path: string;
+}
+
 type MiddlewareFunctionExecute = {
   (req: Request, res: Response): [Request, Response];
 };
@@ -58,4 +62,5 @@ export {
   RouteFunctionExecute,
   HTTPMethods,
   ContentTypes,
+  RouterArgs,
 };

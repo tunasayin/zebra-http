@@ -1,9 +1,9 @@
-<h1 align="center"> Zebra </h1>
+<h1 align="center"> Zibra </h1>
 
-<p align="center">Zebra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.</p>
+<p align="center">Zibra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.</p>
 <p align="center">
-  <img src="https://img.shields.io/npm/v/zebra-http.svg" />
-  <img src="https://img.shields.io/npm/dm/zebra-http.svg" />
+  <img src="https://img.shields.io/npm/v/Zibra-http.svg" />
+  <img src="https://img.shields.io/npm/dm/Zibra-http.svg" />
 </p>
 
 <br/>
@@ -16,13 +16,13 @@
 
 <br/>
 
-## Example Zebra Server
+## Example Zibra Server
 
 ```js
-const Zebra = require("zebra-http");
+const Zibra = require("zibra");
 const path = require("path");
 
-const app = new Zebra.App({
+const app = new Zibra.App({
   debug: true,
 });
 
@@ -42,7 +42,7 @@ app.start(3000, () => {
 
 ## Documentation
 
-Click [here](https://tunasayin.github.io/zebra-http/) to go to the documentation.
+Click [here](https://tunasayin.github.io/zibra/) to go to the documentation.
 
 ## License
 

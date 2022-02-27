@@ -1,7 +1,7 @@
-const Zebra = require("../dist/index");
+const Zibra = require("../dist/index");
 const path = require("path");
 
-const app = new Zebra.App({
+const app = new Zibra.App({
   debug: true,
 });
 

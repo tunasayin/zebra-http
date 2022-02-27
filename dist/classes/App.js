@@ -65,6 +65,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = __importDefault(require("http"));
 var https_1 = __importDefault(require("https"));
+var path_1 = __importDefault(require("path"));
 var Response_1 = __importDefault(require("./Response"));
 var Request_1 = __importDefault(require("./Request"));
 var StaticRoute_1 = __importDefault(require("./StaticRoute"));
@@ -113,7 +114,7 @@ var App = (function (_super) {
             canRun += 1;
         }
         catch (err) {
-            throw new Error("\u001B[32m[zebra-http]\u001B[0m: An unexpected error occued while starting HTTP server. \n".concat(err));
+            throw new Error("\u001B[32m[zibra]\u001B[0m: An unexpected error occued while starting HTTP server. \n".concat(err));
         }
         if (this.keys) {
             try {
@@ -121,7 +122,7 @@ var App = (function (_super) {
                 canRun += 1;
             }
             catch (err) {
-                throw new Error("\u001B[32m[zebra-http]\u001B[0m: An unexpected error occured while starting HTTPS server. \n".concat(err));
+                throw new Error("\u001B[32m[zibra]\u001B[0m: An unexpected error occured while starting HTTPS server. \n".concat(err));
             }
         }
         else {
@@ -191,6 +192,17 @@ var App = (function (_super) {
         var route = new StaticRoute_1.default(urlPath, folderPath);
         this.staticRoutes.push(route);
         return route;
+    };
+    App.prototype.useRouter = function (router) {
+        var _this = this;
+        router.routes.forEach(function (route) {
+            var routePath = path_1.default
+                .normalize(path_1.default.join(router.path, route.path))
+                .replace(/\\/g, "/");
+            route.routeFunctions.forEach(function (routeFunc) {
+                _this.registerRoute(routePath, routeFunc.methods, routeFunc.execute);
+            });
+        });
     };
     App.prototype.get = function (route, routeFunction) {
         this.registerRoute(route, [constants_1.HTTPMethods.GET], routeFunction);

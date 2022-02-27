@@ -116,7 +116,7 @@ var RouteManager = (function () {
                         if (route === null || route === void 0 ? void 0 : route.getAvailableMethods().includes(req.method)) {
                             try {
                                 if (this.debug)
-                                    console.log("\u001B[32m[zebra-http]\u001B[0m: Recieved, a request executing route ".concat(route.path, "."));
+                                    console.log("\u001B[32m[zibra]\u001B[0m: Recieved, a request executing route ".concat(route.path, "."));
                                 route.executeRelatedRoutes(req.method, req, res);
                             }
                             catch (err) {
@@ -136,7 +136,7 @@ var RouteManager = (function () {
                     case 0:
                         if (!this.debug)
                             return [2];
-                        console.log("\u001B[32m[zebra-http]\u001B[0m: \u001B[31mEncountered an error on ".concat(req.method, " ").concat(req.path, ", open route on browser to see information about the error.\u001B[0m"));
+                        console.log("\u001B[32m[zibra]\u001B[0m: \u001B[31mEncountered an error on ".concat(req.method, " ").concat(req.path, ", open route on browser to see information about the error.\u001B[0m"));
                         return [4, fs_1.default.readFileSync(path_1.default.join(__dirname, "..", "..", "templates", "error.html"), "utf-8")];
                     case 1:
                         html = _a.sent();

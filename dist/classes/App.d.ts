@@ -5,6 +5,7 @@ import Static from "./StaticRoute";
 import StaticRoute from "./StaticRoute";
 import MiddlewareManager from "./MiddlewareManager";
 import { AppOptions, RouteFunctionExecute } from "../constants";
+import Router from "./Router";
 export default class App extends MiddlewareManager {
     protected servers: {
         http: http.Server;
@@ -25,6 +26,7 @@ export default class App extends MiddlewareManager {
     start(httpPort: number, started?: () => void): void;
     private _handleRequest;
     serve(urlPath: string, folderPath: string): StaticRoute;
+    useRouter(router: Router): void;
     get(route: string, routeFunction: RouteFunctionExecute): void;
     head(route: string, routeFunction: RouteFunctionExecute): void;
     post(route: string, routeFunction: RouteFunctionExecute): void;

@@ -1,7 +1,7 @@
 {
-  "name": "zebra-http",
-  "version": "1.0.4",
-  "description": "Zebra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.",
+  "name": "zibra",
+  "version": "1.0.5",
+  "description": "Zibra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.",
   "main": "dist/index",
   "directories": {
     "test": "tests"
@@ -25,6 +25,6 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/tunasayin/zebra-http.git"
+    "url": "https://github.com/tunasayin/zibra.git"
   }
 }
