@@ -2,8 +2,8 @@
 
 <p align="center">Zibra is a basic HTTP server module written in TS that makes creating HTTP/HTTPS servers easier.</p>
 <p align="center">
-  <img src="https://img.shields.io/npm/v/Zibra-http.svg" />
-  <img src="https://img.shields.io/npm/dm/Zibra-http.svg" />
+  <img src="https://img.shields.io/npm/v/zibra.svg" />
+  <img src="https://img.shields.io/npm/dm/zibra.svg" />
 </p>
 
 <br/>
